@@ -1,17 +1,36 @@
-import {Text, SafeAreaView, StyleSheet, TouchableOpacity} from 'react-native';
+import {
+  Text,
+  SafeAreaView,
+  StyleSheet,
+  TouchableOpacity,
+  NativeModules,
+} from 'react-native';
 import React from 'react';
 
 const App = () => {
+  const onIncrement = () => {
+    NativeModules.Counter.increment((value: number) => {
+      console.log(value);
+    });
+  };
+  const onDecrement = async () => {
+    try {
+      const value = await NativeModules.Counter.decrement();
+      console.log(value);
+    } catch (e) {
+      console.log(e);
+    }
+  };
   return (
     <SafeAreaView style={styles.container}>
       <TouchableOpacity
         style={[styles.button, {backgroundColor: 'green'}]}
-        onPress={() => console.log('Increment')}>
+        onPress={onIncrement}>
         <Text style={styles.text}>Increment</Text>
       </TouchableOpacity>
       <TouchableOpacity
         style={[styles.button, {backgroundColor: 'red'}]}
-        onPress={() => console.log('Decrement')}>
+        onPress={onDecrement}>
         <Text style={styles.text}>Decrement</Text>
       </TouchableOpacity>
     </SafeAreaView>
